@@ -78,3 +78,17 @@ http://localhost
 
 - Base image
   - [mailhog/mailhog](https://hub.docker.com/r/mailhog/mailhog)
+
+
+
+# 解説
+
+- docker compose exec php artisan breeze:install api
+  - config\cor.phpに環境変数の読み込みが追記される
+  - フロントエンドとバックエンドのオリジンが異なっていても通信が行えるように
+  CORS(Cross-Origin Resource Sharing)の設定も行われる。
+  configフォルダのcors.phpファイルを確認すると.envファイルに設定したFRONTEND_URLがallowed_originsの配列に含まれていることが確認できる。
+
+- next.js側の.env
+  NEXT_PUBLIC_BACKEND_URL=http://localhost
+  Dockerをご使用の場合は、http://localhost:8000ではなく、http://localhostとなるようです。

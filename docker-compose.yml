@@ -61,10 +61,10 @@ services:
         volume:
           nocopy: true
     environment:
-      - MYSQL_DATABASE=${DB_DATABASE:-laravel}
+      - MYSQL_DATABASE=${DB_DATABASE:-laravel-next}
       - MYSQL_USER=${DB_USERNAME:-phper}
-      - MYSQL_PASSWORD=${DB_PASSWORD:-secret}
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-phper}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-root}
 
   mailhog:
     image: mailhog/mailhog
@@ -73,3 +73,17 @@ services:
         published: ${MAILHOG_PUBLISHED_PORT:-8025}
         protocol: tcp
         mode: host
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=db
+      - PMA_USER=phper
+      - PMA_PASSWORD=phper
+    ports:
+      - "3333:80"
+    volumes:
+      - ./docker/phpmyadmin/sessions:/sessions
